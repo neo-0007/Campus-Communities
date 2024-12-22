@@ -371,7 +371,7 @@ export default function Register() {
           <div className="bg-[#E5E5E5] bg-cover bg-center h-full w-full flex justify-evenly">
             {(componentNumber === 0 || componentNumber === 1) && (
               <img
-                className="w-[400px] mx-auto my-auto block"
+                className="w-[350px] mx-auto my-auto block"
                 src="/academic.png"
                 alt=""
               />
