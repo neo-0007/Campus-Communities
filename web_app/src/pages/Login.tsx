@@ -19,14 +19,11 @@ export default function Login() {
     }
 
     return (
-        <div className="grid grid-cols-[57%_auto] h-screen">
-            <div className="flex flex-col">
-                <div className="mx-5 my-3">
-                    <img src="/logo.png" className="w-[360px]" alt="Campus Communities" />
-                </div>
+        <div className="grid grid-cols-2 h-screen">
+            <div className="flex flex-col justify-center items-center h-full">
 
-                <div className="mx-auto my-12 w-full max-w-lg rounded-lg bg-white p-8 shadow-xl">
-                    <div className="text-center">
+                <div className="mx-auto my-12 w-full max-w-lg rounded-lg bg-white p-8">
+                    <div className="text-start">
                         <h1 className="text-3xl font-bold text-gray-800">Login</h1>
                         <p className="mt-2 text-gray-500">Ahh a member I see, Welcome again !</p>
                     </div>
@@ -39,7 +36,7 @@ export default function Login() {
                             <input
                                 type="text"
                                 placeholder="Roll Number"
-                                className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 text-sm text-gray-700 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                                className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 text-sm text-gray-700 focus:outline-none focus:border-gray-400"
                                 onChange={(e) =>
                                     setUserDetails({ ...userDetails, rollNumber: e.target.value })
                                 }
@@ -49,7 +46,7 @@ export default function Login() {
                             <input
                                 type="password"
                                 placeholder="Password"
-                                className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 text-sm text-gray-700 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                                className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 text-sm text-gray-700 focus:outline-none focus:border-gray-400"
                                 onChange={(e) =>
                                     setUserDetails({ ...userDetails, password: e.target.value })
                                 }
@@ -59,15 +56,14 @@ export default function Login() {
                         </div>
 
                         <div>
-                            <button
-                                type="submit"
-                                className="group relative w-full cursor-pointer overflow-hidden rounded-md border-2 border-blue-500 bg-white px-5 py-3 text-center font-mono font-semibold"
-                            >
-                                <span className="ease absolute top-1/2 left-1/2 h-0 w-64 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-blue-500 transition-all duration-300 group-hover:h-64"></span>
-                                <span className="ease relative text-blue-500 transition duration-300 group-hover:text-white">
-                                    Login <FaArrowRight className="inline ml-2" />
-                                </span>
-                            </button>
+                        <button
+            type="submit"
+            className="relative w-full cursor-pointer overflow-hidden rounded-md border-2 border-black bg-[#ACC8F7] px-5 py-3 text-center font-mono font-semibold text-white transition-all duration-300 hover:shadow-lg hover:bg-blue-500 hover:border-black"
+          >
+            <span className="relative text-black">
+              LOGIN <FaArrowRight className="inline ml-2 text-black" />
+            </span>
+          </button>
                         </div>
                     </form>
 
@@ -82,7 +78,7 @@ export default function Login() {
                 </div>
 
             </div>
-            <div className="bg-[#F5F5F5] bg-cover bg-center h-full w-full rounded-l-[60px] flex justify-evenly">
+            <div className="bg-[#E5E5E5] bg-cover bg-center h-full w-full flex justify-evenly">
                 <img className="w-[400px] mx-auto my-auto block" src={"/login.png"} alt="" />
             </div>
         </div>
