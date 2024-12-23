@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/core/theme/theme.dart';
 import 'package:flutter_app/routes/app_router.dart';
 
 // Defines the main structure of the application, including the MaterialApp widget.
@@ -12,6 +13,9 @@ final _myAppRouter = AppRouter();
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      themeMode: ThemeMode.system,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
       routeInformationParser: _myAppRouter.router.routeInformationParser,
       routerDelegate: _myAppRouter.router.routerDelegate,
       routeInformationProvider: _myAppRouter.router.routeInformationProvider,
