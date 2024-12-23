@@ -14,8 +14,8 @@ final _myAppRouter = AppRouter();
   Widget build(BuildContext context) {
     return MaterialApp.router(
       themeMode: ThemeMode.system,
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
+      theme: CAppTheme.lightTheme,
+      darkTheme: CAppTheme.darkTheme,
       routeInformationParser: _myAppRouter.router.routeInformationParser,
       routerDelegate: _myAppRouter.router.routerDelegate,
       routeInformationProvider: _myAppRouter.router.routeInformationProvider,

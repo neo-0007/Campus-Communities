@@ -25,7 +25,7 @@ class AppRouter {
         path: '/onboarding',
         pageBuilder: (context, state) {
           return MaterialPage(
-            child: const OnboardingPage(),
+            child:OnboardingPage(),
           );
         },
       ),
