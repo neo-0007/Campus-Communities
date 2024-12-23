@@ -5,6 +5,6 @@ import 'package:flutter_app/myapp.dart';
 // This file initializes the app and runs the MyApp widget from myapp.dart.
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
