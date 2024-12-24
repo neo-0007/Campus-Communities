@@ -20,6 +20,7 @@ class CAuthFormField extends StatelessWidget {
       SizedBox(
         height: 50,
         child: TextFormField(
+          controller: controller,
           obscureText: obscureText,
           decoration: InputDecoration(
             hintText: hintText,

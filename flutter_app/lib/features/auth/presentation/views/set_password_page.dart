@@ -12,12 +12,11 @@ class SetPasswordPage extends StatefulWidget {
 }
 
 class SetPasswordPageState extends State<SetPasswordPage> {
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  
 
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +34,7 @@ class SetPasswordPageState extends State<SetPasswordPage> {
               Spaces.verySmallSpace,
               AuthSmallText(text: 'Make it long and keep it a secret!'),
               Spaces.largeSpace,
-              
+
               // Password Field
               CAuthFormField(
                 hintText: 'Password',
@@ -66,6 +65,7 @@ class SetPasswordPageState extends State<SetPasswordPage> {
                   return null;
                 },
               ),
+
               Spaces.largeSpace,
 
               // Submit Button
@@ -75,7 +75,8 @@ class SetPasswordPageState extends State<SetPasswordPage> {
                 onPressed: () {
                   if (_formKey.currentState?.validate() == true) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Password Set Successfully!')),
+                      const SnackBar(
+                          content: Text('Password Set Successfully!')),
                     );
                   }
                 },
