@@ -17,8 +17,8 @@ class CTextTheme {
       color: CColors.lightTextColor,
     ),
     headlineSmall: GoogleFonts.poppins(
-      fontSize: 22,
-      fontWeight: FontWeight.w600,
+      fontSize: 18,
+      fontWeight: FontWeight.bold,
       color: CColors.lightTextColor,
     ),
     titleLarge: GoogleFonts.poppins(
@@ -63,7 +63,15 @@ class CTextTheme {
       fontWeight: FontWeight.normal,
       color: const Color.fromARGB(82, 0, 0, 0),
     ),
+
+    labelSmall: GoogleFonts.poppins(
+      fontSize: 10,
+      fontWeight: FontWeight.normal,
+      color: const Color.fromARGB(82, 0, 0, 0),),
   );
+
+
+
 
   static TextTheme darkTextTheme = TextTheme(
     headlineLarge: GoogleFonts.poppins(

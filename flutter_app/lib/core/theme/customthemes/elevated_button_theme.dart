@@ -8,7 +8,7 @@ class CElevatedButtonTheme {
       backgroundColor: const Color(0xFFACC8F7),
       shape: RoundedRectangleBorder(
         side: BorderSide(width: 2),
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(8),
       ),
     )
   );

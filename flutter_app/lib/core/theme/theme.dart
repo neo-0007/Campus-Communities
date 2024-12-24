@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/core/theme/customthemes/elevated_button_theme.dart';
+import 'package:flutter_app/core/theme/customthemes/text_form_field_theme.dart';
 import 'package:flutter_app/core/theme/customthemes/text_theme.dart';
 import 'package:flutter_app/core/utils/colors.dart';
 
@@ -14,6 +15,7 @@ class CAppTheme {
     scaffoldBackgroundColor: CColors.scaffoldBackgroundColor,
     textTheme: CTextTheme.lightTextTheme,
     elevatedButtonTheme: CElevatedButtonTheme.lightElevatedButtonTheme,
+    inputDecorationTheme: CTextFormFieldTheme.lightTheme,
   );
   
   static ThemeData darkTheme = ThemeData(

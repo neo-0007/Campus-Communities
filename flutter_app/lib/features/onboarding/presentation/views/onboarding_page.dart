@@ -4,23 +4,25 @@ import 'package:flutter_app/core/utils/constants/helper_functions.dart';
 import 'package:flutter_app/core/utils/constants/image_strings.dart';
 import 'package:flutter_app/features/onboarding/presentation/widgets/onboarding_button.dart';
 import 'package:flutter_app/features/onboarding/presentation/widgets/onboardingslide.dart';
+import 'package:flutter_app/routes/app_route_constants.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
 
   @override
-  _OnboardingPageState createState() => _OnboardingPageState();
+  OnboardingPageState createState() => OnboardingPageState();
 }
 
-class _OnboardingPageState extends State<OnboardingPage> {
+class OnboardingPageState extends State<OnboardingPage> {
   final PageController _pageController = PageController();
   late Timer _timer;
 
   @override
   void initState() {
     super.initState();
-    // Start the auto-scrolling timer
+
     _timer = Timer.periodic(Duration(seconds: 3), (timer) {
       if (_pageController.page == 2) {
         _pageController.animateToPage(0,
@@ -34,7 +36,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   @override
   void dispose() {
-    // Cancel the timer when the widget is disposed
+
     _timer.cancel();
     super.dispose();
   }
@@ -44,7 +46,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     return Scaffold(
       body: Stack(
         children: [
-          // PageView occupies the full screen
+
           PageView(
             controller: _pageController,
             children: [
@@ -56,10 +58,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   image: ImageStrings.onboarding3, title: 'Achieve'),
             ],
           ),
-          // SmoothPageIndicator and button at the bottom
+
           Positioned(
             bottom: HelperFunctions.getScreenSize(context).height /
-                4.2, // Distance from the bottom
+                4.2,
             left: 0,
             right: 0,
             child: Center(
@@ -77,8 +79,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
           Positioned(
             bottom: 60,
             left: HelperFunctions.getScreenSize(context).width *
-                0.25, // Distance from the bottom
-            child: OnboardingButton(text: 'GET STARTED'),
+                0.25, 
+            child: OnboardingButton(text: 'GET STARTED',onPressed: () => context.goNamed(AppRouteConstants.signup1),),
           ),
         ],
       ),
