@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 class AppRouter {
   //Initial Page is set to SplashScreen
   GoRouter router = GoRouter(
-    initialLocation: '/splashscreen',
+    initialLocation: '/onboarding',
     routes: [
       //Route for Splash Screen
       GoRoute(

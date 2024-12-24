@@ -18,7 +18,13 @@ class Onboardingslide extends StatelessWidget {
           width: HelperFunctions.getScreenSize(context).width * 0.6,
         ),
         SizedBox(height: 20),
-        
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
       ],
     );
   }

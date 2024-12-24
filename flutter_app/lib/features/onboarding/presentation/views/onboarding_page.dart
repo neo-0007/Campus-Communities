@@ -73,7 +73,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
             ),
           ),
           Positioned(
-            bottom: 40,
+            bottom: 60,
             left: HelperFunctions.getScreenSize(context).width * 0.25, // Distance from the bottom
             child: SizedBox(
               height: 30,
