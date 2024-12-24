@@ -2,11 +2,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/core/utils/constants/helper_functions.dart';
 import 'package:flutter_app/core/utils/constants/image_strings.dart';
+import 'package:flutter_app/features/onboarding/presentation/widgets/onboarding_button.dart';
 import 'package:flutter_app/features/onboarding/presentation/widgets/onboardingslide.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardingPage extends StatefulWidget {
-  OnboardingPage({super.key});
+  const OnboardingPage({super.key});
 
   @override
   _OnboardingPageState createState() => _OnboardingPageState();
@@ -57,7 +58,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
           ),
           // SmoothPageIndicator and button at the bottom
           Positioned(
-            bottom: HelperFunctions.getScreenSize(context).height / 4.2, // Distance from the bottom
+            bottom: HelperFunctions.getScreenSize(context).height /
+                4.2, // Distance from the bottom
             left: 0,
             right: 0,
             child: Center(
@@ -74,23 +76,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
           ),
           Positioned(
             bottom: 60,
-            left: HelperFunctions.getScreenSize(context).width * 0.25, // Distance from the bottom
-            child: SizedBox(
-              height: 30,
-              width: HelperFunctions.getScreenSize(context).width / 2, // Explicit height for the button
-              child: ElevatedButton(
-                onPressed: () {
-                  // Handle Get Started button press
-                },
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    'GET STARTED',
-                    style: Theme.of(context).textTheme.labelLarge,
-                  ),
-                ),
-              ),
-            ),
+            left: HelperFunctions.getScreenSize(context).width *
+                0.25, // Distance from the bottom
+            child: OnboardingButton(text: 'GET STARTED'),
           ),
         ],
       ),
