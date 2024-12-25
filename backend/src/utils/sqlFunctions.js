@@ -79,6 +79,26 @@ const updateRecord = (tableName,updates,condition)=>{
     });
 };
 
+/*
+Fxn to Delete a Record(deletes a whole row with some condition)
+Parameters: tableName, condition-> column:value pair
+await deleteRecord('users', { column: 'id', value: 1 });
+*/
+const deleteRecord = (tableName,condition)=>{
+    return new Promise((resolve,reject)=>{
+        const query = `DELETE FROM ${tableName} WHERE ${condition.column} = ?`;
+
+        pool.query(query,[condition.value],(err,results)=>{
+            if(err){
+                reject(err);
+            }else{
+                resolve(results);
+            }
+        });
+    });
+};
+
+
 module.exports = {
     createTable,
     checkRecordExists,
