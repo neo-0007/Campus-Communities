@@ -98,6 +98,43 @@ const deleteRecord = (tableName,condition)=>{
     });
 };
 
+/*
+Fxn to fetch all records
+Parameters: tableName
+Syntax: const users = await fetchAllRecords('users');
+*/
+const fetchAllRecords = (tableName) => {
+    return new Promise((resolve, reject) => {
+        const query = `SELECT * FROM ${tableName}`;
+        pool.query(query, (err, results) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+};
+
+/*
+Fxn to fetch a record
+Parameters: tableName, condition-> column:value
+Syntax:const user = await fetchRecordsWithCondition('users', { column: 'email', value: 'test@example.com' });
+*/
+const fetchRecord = (tableName, condition) => {
+    return new Promise((resolve, reject) => {
+        const query = `SELECT * FROM ${tableName} WHERE ${condition.column} = ?`;
+        pool.query(query, [condition.value], (err, results) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(results);
+            }
+        });
+    });
+};
+
+
 
 module.exports = {
     createTable,
