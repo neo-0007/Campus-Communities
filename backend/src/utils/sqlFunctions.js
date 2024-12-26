@@ -140,5 +140,8 @@ module.exports = {
     createTable,
     checkRecordExists,
     insertRecord,
-    updateRecord
+    updateRecord,
+    deleteRecord,
+    fetchAllRecords,
+    fetchRecord
 }
