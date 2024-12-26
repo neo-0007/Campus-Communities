@@ -33,10 +33,10 @@ export const Join = () => {
     const Icon = browser.icon;
 
     return (
-        <div className="grid sm:grid-cols-[57%_auto] h-screen">
+        <div className="grid grid-cols-[55%_auto] h-screen">
             <div className="flex flex-col">
-                <div className="mx-5 my-3">
-                    <img src="/logo.png" className="w-[360px] max-sm:w-[240px]" alt="Campus Communities" />
+                <div className="mx-5 my-3 mt-5">
+                    <img src="/logo.png" className="w-[300px]" alt="Campus Communities" />
                 </div>
                 <div className="mx-28 max-sm:mx-12 my-auto flex flex-col space-y-4">
                     <div className="font-bold text-5xl max-sm:text-3xl">All-in-one <br /> University app</div>
