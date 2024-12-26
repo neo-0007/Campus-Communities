@@ -1,6 +1,8 @@
+const BaseModel = require("./base.model");
 
-class User {
+class User extends BaseModel{
     constructor({ email, password, name, username,roll_number, semester,phone }) {
+        super('users'); // Pass the table name to the BaseModel
         this.email = email;
         this.password = password;
         this.name = name;
