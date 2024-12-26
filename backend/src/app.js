@@ -13,6 +13,11 @@ app.use(express.urlencoded({extended:false}));
 
 connectDB();
 
+//Test Api
+app.get("/",(req,res) =>{
+    res.status(200).json({success: true , message: "Welcome to Campus Communities!"})
+})
+
 app.listen(port,() =>{
     console.log(`Server running on port : ${port}`);
 });
