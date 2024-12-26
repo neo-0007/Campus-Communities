@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa"
+import { FaArrowRight } from "react-icons/fa"
 import { toast } from "react-toastify";
 
 export default function Login() {
@@ -19,13 +19,13 @@ export default function Login() {
     }
 
     return (
-        <div className="grid grid-cols-2 h-screen">
+        <div className="grid sm:grid-cols-2 h-screen">
             <div className="flex flex-col justify-center items-center h-full">
 
                 <div className="mx-auto my-12 w-full max-w-lg rounded-lg bg-white p-8">
                     <div className="text-start">
                         <h1 className="text-3xl font-bold text-gray-800">Login</h1>
-                        <p className="mt-2 text-gray-500">Ahh a member I see, Welcome again !</p>
+                        <p className="mt-2 text-gray-500 max-sm:text-sm">Ahh a member I see, Welcome again !</p>
                     </div>
 
                     <form
@@ -78,7 +78,7 @@ export default function Login() {
                 </div>
 
             </div>
-            <div className="bg-[#E5E5E5] bg-cover bg-center h-full w-full flex justify-evenly">
+            <div className="bg-[#E5E5E5] bg-cover bg-center h-full w-full flex justify-evenly max-sm:hidden">
                 <img className="w-[400px] mx-auto my-auto block" src={"/login.png"} alt="" />
             </div>
         </div>

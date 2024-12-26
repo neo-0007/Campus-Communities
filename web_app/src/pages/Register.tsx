@@ -49,7 +49,7 @@ export default function Register() {
     <div className="mx-auto w-full max-w-lg rounded-lg bg-white p-8">
       <div className="text-start">
         <h1 className="text-3xl font-bold text-gray-800">Create Account</h1>
-        <p className="mt-2 text-gray-500">
+        <p className="mt-2 text-gray-500 max-sm:text-sm">
           Enter your academic details and get started!
         </p>
       </div>
@@ -145,7 +145,7 @@ export default function Register() {
     <div className="mx-auto w-full max-w-lg rounded-lg bg-white p-8">
       <div className="text-start">
         <h1 className="text-3xl font-bold text-gray-800">Academic Details</h1>
-        <p className="mt-1 text-gray-400">Here we go!</p>
+        <p className="mt-1 text-gray-400 max-sm:text-sm">Here we go!</p>
       </div>
 
       <form
@@ -232,8 +232,8 @@ export default function Register() {
   const renderPersonalDetails = () => (
     <div className="mx-auto my-5 flex w-full max-w-lg flex-col space-y-8 rounded-lg bg-white p-10">
       <div className="text-start">
-        <h1 className="text-2xl font-bold text-gray-800">Personal Details</h1>
-        <p className="mt-1 text-gray-500">It's almost done !</p>
+        <h1 className="text-3xl font-bold text-gray-800">Personal Details</h1>
+        <p className="mt-1 text-gray-500 max-sm:text-sm">It's almost done !</p>
       </div>
 
       <form
@@ -297,8 +297,8 @@ export default function Register() {
     <div className="h-screen flex flex-col justify-center items-center">
       <div className="mx-auto my-5 flex w-full max-w-lg flex-col space-y-8 p-10">
         <div className="text-start">
-          <h1 className="text-2xl font-bold text-gray-800">Set a Password</h1>
-          <p className="mt-2 text-gray-500">
+          <h1 className="text-3xl font-bold text-gray-800">Set a Password</h1>
+          <p className="mt-2 text-gray-500 max-sm:text-sm">
             Make it long and keep it secret !
           </p>
         </div>
@@ -353,7 +353,7 @@ export default function Register() {
   return (
     <>
       {componentNumber < 3 ? (
-        <div className="grid grid-cols-2 h-screen">
+        <div className="grid sm-grid-cols-2 h-screen">
           <div className="flex flex-col justify-center items-center h-full">
             {componentNumber === 0 && renderCreateAccount()}
             {componentNumber === 1 && renderAcademicDetails()}
@@ -368,7 +368,7 @@ export default function Register() {
               </button>
             )}
           </div>
-          <div className="bg-[#E5E5E5] bg-cover bg-center h-full w-full flex justify-evenly">
+          <div className="bg-[#E5E5E5] bg-cover bg-center h-full w-full flex justify-evenly max-sm:hidden">
             {(componentNumber === 0 || componentNumber === 1) && (
               <img
                 className="w-[350px] mx-auto my-auto block"

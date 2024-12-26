@@ -38,9 +38,9 @@ export const Join = () => {
                 <div className="mx-5 my-3 mt-5">
                     <img src="/logo.png" className="w-[300px]" alt="Campus Communities" />
                 </div>
-                <div className="mx-28 my-auto flex flex-col space-y-4">
-                    <div className="font-bold text-5xl">All-in-one <br /> University app</div>
-                    <div className="text-2xl">Your ultimate companion for managing your college life effortlessly !</div>
+                <div className="mx-28 max-sm:mx-12 my-auto flex flex-col space-y-4">
+                    <div className="font-bold text-5xl max-sm:text-3xl">All-in-one <br /> University app</div>
+                    <div className="text-2xl max-sm:text-xl">Your ultimate companion for managing your college life effortlessly !</div>
                     <div>
                         <button onClick={() => setIsPopupOpen(true)} className="group relative m-1 cursor-pointer overflow-hidden rounded-md border-2 border-[#649dfe] px-5 py-3 font-mono font-semibold">
                             <span className="ease absolute top-1/2 h-0 w-64 origin-center -translate-x-20 rotate-45 bg-[#649dfe] transition-all duration-300 group-hover:h-64 group-hover:-translate-y-32"></span>
@@ -48,7 +48,7 @@ export const Join = () => {
                     </div>
                 </div>
             </div>
-            <div className="bg-[url('/AuthSideImg.png')] bg-cover bg-center h-full w-full rounded-l-[60px]">
+            <div className="bg-[url('/AuthSideImg.png')] bg-cover bg-center h-full w-full rounded-l-[60px] max-sm:hidden">
             </div>
 
             {/* Popup */}
@@ -59,13 +59,13 @@ export const Join = () => {
                             <div onClick={() => {
                                 setIsPopupOpen(false);
                                 navigate('/user/register');
-                            }} className="flex items-center space-x-2 text-2xl border-solid border-2 border-black px-5 py-3 rounded-[10px] bg-[#ACC8F7] cursor-pointer hover:bg-[#cbdeff]">
-                                <Icon className="text-2xl" />
+                            }} className="flex items-center space-x-2 text-2xl max-sm:text-lg border-solid border-2 border-black px-5 py-3 rounded-[10px] bg-[#ACC8F7] cursor-pointer hover:bg-[#cbdeff]">
+                                <Icon className="text-2xl max-sm:text-lg" />
                                 <span>Continue in {browser.name}</span>
                             </div>
                             {continueOptions.map((option, index) => (
-                                <div key={index} className="flex items-center space-x-2 text-2xl border-solid border-2 border-black px-5 py-3 rounded-[10px] bg-[#ACC8F7] cursor-pointer hover:bg-[#cbdeff]">
-                                    <option.icon className="text-2xl" />
+                                <div key={index} className="flex items-center space-x-2 text-2xl max-sm:text-lg border-solid border-2 border-black px-5 py-3 rounded-[10px] bg-[#ACC8F7] cursor-pointer hover:bg-[#cbdeff]">
+                                    <option.icon className="text-2xl max-sm:text-lg" />
                                     <span>Continue in {option.name}</span>
                                     </div>
                             ))}

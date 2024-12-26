@@ -3,16 +3,18 @@ const config = require("../config/mysqlConfig");
 const pool = mysql.createPool(config);
 
 
+// -1 = error
+
 /*Fxn to create a new table:
 Parameters: Schema -> SQL String query to create db
 Syntax for use : await createTable(`CREATE TABLE IF NOT EXISTS table_name(data)`)
 */
-const createTable = (schema) =>{
-    return new Promise((resolve,reject)=> {
-        pool.query(schema,(err,results)=>{
-            if(err){
+const createTable = (schema) => {
+    return new Promise((resolve, reject) => {
+        pool.query(schema, (err, results) => {
+            if (err) {
                 reject(err);
-            }else{
+            } else {
                 resolve(results);
             }
         });
@@ -26,19 +28,24 @@ Parameters: tableName-> name of table to search
             column-> column name
             value-> value which we need to search
 Syntax: const record = await checkRecordExists('table_name','column_name','value');
-*/              
-const checkRecordExists = (tableName, column, value) => {
-    return new Promise((resolve,reject)=>{
-        const query = `SELECT * FROM ${tableName} WHERE ${column} = ?`;
-
+*/
+const checkRecordExists = (tableName, column, value, req, res) => {
+    const query = `SELECT * FROM ${tableName} WHERE ${column} = ?`;
+    try {
         pool.query(query, [value], (err, results) => {
-            if(err){
-                reject(err);
-            }else{
-                resolve(results.length ? results[0] : null);
+            if (err) {
+                console.log(err)
+                return -1
             }
+            if (results.length > 0) {
+                return 1
+            }
+            return 0
         });
-    });
+    } catch (error) {
+        console.log(error)
+        return -1
+    }
 };
 
 /*
@@ -46,18 +53,22 @@ Fxn to insert a new record in a table
 Parameters: tableName-> table_name , record-> object with key:value pairs
 Syntax: await insertRecord(tableName,{col1:val1,col2:val2,col3:val3});
 */
-const insertRecord = (tableName, record) =>{
-    return new Promise((resolve,reject)=>{
-        const query = `INSERT INTO ${tableName} SET ?`;
+const insertRecord = (tableName, record, req, res) => {
+    const query = `INSERT INTO ${tableName} SET ?`;
 
-        pool.query(query,[record],(err,results)=>{
-            if(err){
-                reject(err);
-            }else{
-                resolve(results);
+    try {
+        pool.query(query, [record], (err, results) => {
+            if (err) {
+                console.log(err)
+                return -1
+            } else {
+                return results
             }
         });
-    });
+    } catch (error) {
+        console.log(error)
+        return -1
+    }
 };
 
 /*
@@ -65,14 +76,14 @@ Fxn to Update a existing record
 Parameters: tableName, updates-> column:value pair, condition: column:value pair
 Syntax: await updateRecord('users', { name: 'John Doe' }, { column: 'id', value: 1 });
 */
-const updateRecord = (tableName,updates,condition)=>{
-    return new Promise((resolve,reject)=>{
+const updateRecord = (tableName, updates, condition) => {
+    return new Promise((resolve, reject) => {
         const query = `UPDATE ${tableName} SET ? WHERE ${condition.column}`
 
-        pool.query(query,[updates,condition.value],(err,results)=>{
-            if(err){
+        pool.query(query, [updates, condition.value], (err, results) => {
+            if (err) {
                 reject(err);
-            }else{
+            } else {
                 resolve(results);
             }
         });
@@ -84,14 +95,14 @@ Fxn to Delete a Record(deletes a whole row with some condition)
 Parameters: tableName, condition-> column:value pair
 await deleteRecord('users', { column: 'id', value: 1 });
 */
-const deleteRecord = (tableName,condition)=>{
-    return new Promise((resolve,reject)=>{
+const deleteRecord = (tableName, condition) => {
+    return new Promise((resolve, reject) => {
         const query = `DELETE FROM ${tableName} WHERE ${condition.column} = ?`;
 
-        pool.query(query,[condition.value],(err,results)=>{
-            if(err){
+        pool.query(query, [condition.value], (err, results) => {
+            if (err) {
                 reject(err);
-            }else{
+            } else {
                 resolve(results);
             }
         });
