@@ -22,13 +22,10 @@ const addInstitute = async (req, res, next) => {
             logo_url,
         });
 
-        const insertedInstitute = await newInstitute.save().catch((err) => {
-            throw new Error(err);
+        const insertedInstitute = await newInstitute.save()
+        if (!insertedInstitute) {
+            throw new Error("Failed to add institute.");
         }
-        ).then((result) => {
-            return result.affectedRows > 0 ? newInstitute : null;
-        }
-        );
 
         res.status(200).json({
             success: true,
@@ -49,8 +46,11 @@ const getAllInstitutes = async (req, res, next) => {
             institutes,
         });
     } catch (error) {
-        next(error);
-    }
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong!",
+        });
+        }
 };
 
 const getInstituteById = async (req, res, next) => {
@@ -71,7 +71,10 @@ const getInstituteById = async (req, res, next) => {
             institute: institute[0],
         });
     } catch (error) {
-        next(error);
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong!",
+        });
     }
 };
 
@@ -105,7 +108,10 @@ const getDepartmentsOfInstitute = async (req, res, next) => {
             departments, // This will now be an array
         });
     } catch (error) {
-        next(error);
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong!",
+        });
     }
 };
 
