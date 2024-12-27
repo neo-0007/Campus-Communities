@@ -24,7 +24,7 @@ export default function Register() {
   const [componentNumber, setComponentNumber] = useState(0);
   const [userDetails, setUserDetails] = useState({
     institute: "",
-    rollNumber: "",
+    roll_number: "",
     email: "",
     semester: "",
     course: "",
@@ -39,6 +39,7 @@ export default function Register() {
   const [institutes, setInstitutes] = useState<IInstitute [] | null>(null);
   const [departments, setDepartments] = useState<IDepartment[] | null>(null);
   const [loading, setLoading] = useState(false);
+
   
   const goBack = () => {
     if (componentNumber > 0) {
@@ -61,7 +62,7 @@ export default function Register() {
     try {
       const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/institute/${instituteID}/departments`, { withCredentials: true });
       if (response.data.success && response.data.departments) {
-        setDepartments(response.data.departments); // Set the array of institutes
+        setDepartments(response.data.departments);
       }
     } catch (error) {
       console.error("Error fetching institutes:", error);
@@ -77,50 +78,66 @@ export default function Register() {
   }, [userDetails.institute]);
 
 
-  const handleSubmission = async(e: { preventDefault: () => void }) => {
+  const handleSubmission = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     if (userDetails.password !== userDetails.confirmPassword) {
       toast.error("Passwords do not match!");
     } else if (userDetails.password.length < 8) {
-      toast.error("Password should be atleast 8 characters long");
+      toast.error("Password should be at least 8 characters long");
     } else if (
       !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*(){}?><.,;:]).+$/.test(
         userDetails.password
       )
     ) {
       toast.warn(
-        "Password should contain atleast one uppercase, one lowercase, one number and one special character"
+        "Password should contain at least one uppercase, one lowercase, one number, and one special character"
       );
     } else {
-      setLoading(true);
-      const response = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/api/auth/register`,
-        userDetails,
-        { withCredentials: true }
-      );
-
-      if (response.data.success) {
+      try {
+        setLoading(true);
+        const response = await axios.post(
+          `${import.meta.env.VITE_BASE_URL}/api/auth/register`,
+          userDetails,
+          { withCredentials: true }
+        );
+  
+        if (response.data.success) {
+          setLoading(false);
+          setComponentNumber(0);
+          setUserDetails({
+            institute: "",
+            roll_number: "",
+            email: "",
+            semester: "",
+            course: "",
+            department: "",
+            name: "",
+            username: "",
+            phone: "",
+            password: "",
+            confirmPassword: "",
+          });
+          toast.success("Successfully joined the community!");
+          console.log(userDetails);
+        } else if (response.data.error) {
+          toast.error("User with this roll number already exists!");
+        }
+      } catch (error: any) {
         setLoading(false);
-        setComponentNumber(0);
-        setUserDetails({
-          institute: "",
-          rollNumber: "",
-          email: "",
-          semester: "",
-          course: "",
-          department: "",
-          name: "",
-          username: "",
-          phone: "",
-          password: "",
-          confirmPassword: "",
-        });
-        toast.success("Successfully joined the community!");
-        console.log(userDetails);
+        //console.error("Error while creating account:", error);
+  
+        if (axios.isAxiosError(error) && error.response) {
+          const errorMessage = error.response.data?.message || "Something went wrong!";
+          toast.error(errorMessage);
+        } else {
+          toast.error("An unexpected error occurred.");
+        }
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }
   };
+  
 
   const renderCreateAccount = () => (
     <div className="mx-auto w-full max-w-lg rounded-lg bg-white p-8">
@@ -136,11 +153,11 @@ export default function Register() {
         onSubmit={(e) => {
           e.preventDefault();
           if (
-            !/^[A-Za-z]+$/.test(userDetails.rollNumber[0]) ||
+            !/^[A-Za-z]+$/.test(userDetails.roll_number[0]) ||
             !/^[0-9]+$/.test(
-              userDetails.rollNumber[userDetails.rollNumber.length - 1]
+              userDetails.roll_number[userDetails.roll_number.length - 1]
             ) ||
-            userDetails.rollNumber.length < 6
+            userDetails.roll_number.length < 6
           ) {
             toast.error(
               "Invalid Roll Number! Should be in the format CSB23023 or csb23078"
@@ -151,7 +168,7 @@ export default function Register() {
             );
           } else if (
             userDetails.email.split("@")[0].toLowerCase() !=
-            userDetails.rollNumber.toLowerCase()
+            userDetails.roll_number.toLowerCase()
           ) {
             toast.error("Mail and Roll Number should match!");
           } else {
@@ -171,11 +188,6 @@ export default function Register() {
             <option value="" disabled>
               Select an institute
             </option>
-            {/* {Array.from({ length: 10 }, (_, i) => (
-              <option key={i} value={i + 1}>
-                {i + 1}
-              </option>
-            ))} */}
             {institutes?.map((institute) => (
               <option key={institute.id} value={institute.id}>
                 {institute.name}
@@ -187,9 +199,9 @@ export default function Register() {
             placeholder="Roll Number"
             className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 text-sm text-gray-700 focus:outline-none focus:border-gray-400"
             onChange={(e) =>
-              setUserDetails({ ...userDetails, rollNumber: e.target.value })
+              setUserDetails({ ...userDetails, roll_number: e.target.value })
             }
-            value={userDetails.rollNumber}
+            value={userDetails.roll_number}
             required
           />
           <input
@@ -449,7 +461,7 @@ export default function Register() {
   return (
     <>
       {componentNumber < 3 ? (
-        <div className="grid sm-grid-cols-2 h-screen">
+        <div className="grid sm:grid-cols-2 h-screen">
           <div className="flex flex-col justify-center items-center h-full">
             {componentNumber === 0 && renderCreateAccount()}
             {componentNumber === 1 && renderAcademicDetails()}
