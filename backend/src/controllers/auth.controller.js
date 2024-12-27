@@ -2,11 +2,12 @@ const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
 const User = require("../models/user.model");
 const { generateTokens, storeRefreshToken } = require("../utils/jwtToken");
+const UserInstituteDepartment = require("../models/user.institute.department.model");
 dotenv.config();
 
 const register = async (req, res, next) => {
     try {
-        const { email, password, name, username, semester, roll_number, phone } = req.body;
+        const { email, password, name, username, semester, department, institute, roll_number, phone } = req.body;
 
         const userExists = await new User({}).find({ email });
         if (userExists.length > 0) {
@@ -28,6 +29,20 @@ const register = async (req, res, next) => {
 
         const insertedUser = await newUser.save();
         if (!insertedUser) {
+            throw new Error("Failed to register user.");
+        }
+
+        const userInstituteDepartment = await new UserInstituteDepartment({}).create({
+            user_id: insertedUser.id,
+            institute_id: institute,
+            department_id: department,
+        }).catch((error) => {
+            throw new Error(error);
+        }).then((results) => {
+            return results.affectedRows;
+        });
+
+        if (userInstituteDepartment == 0) {
             throw new Error("Failed to register user.");
         }
 
