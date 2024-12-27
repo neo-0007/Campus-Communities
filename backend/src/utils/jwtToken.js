@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const redis = require('..')
+// const redis = require('..')
 
 
 const generateTokens = (user) => {

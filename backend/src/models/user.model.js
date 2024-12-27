@@ -10,6 +10,7 @@ class User extends BaseModel{
         this.roll_number = roll_number;
         this.semester = semester;
         this.phone = phone;
+        this.role = 1;
     }
 }
 

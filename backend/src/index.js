@@ -1,7 +1,7 @@
 const dotenv = require("dotenv");
 const connectDB = require("./config/mysqlDb");
 const app = require("./app.js");
-const Redis = require("ioredis");
+// const Redis = require("ioredis");
 
 process.on("uncaughtException", (err) => {
     console.error(`Error: ${err.message}`);
@@ -11,29 +11,29 @@ process.on("uncaughtException", (err) => {
 
 dotenv.config();
 
-const redis = new Redis({
-    host: process.env.REDIS_HOST || "127.0.0.1",
-    port: process.env.REDIS_PORT || 6379,
-});
+// const redis = new Redis({
+//     host: process.env.REDIS_HOST || "127.0.0.1",
+//     port: process.env.REDIS_PORT || 6379,
+// });
 
-redis.on("connect", () => {
-    console.log("Connected to Redis successfully.");
-});
+// redis.on("connect", () => {
+//     console.log("Connected to Redis successfully.");
+// });
 
-redis.on("error", (err) => {
-    console.error(`Redis error: ${err.message}`);
-    reconnectRedis();
-});
+// redis.on("error", (err) => {
+//     console.error(`Redis error: ${err.message}`);
+//     reconnectRedis();
+// });
 
-const reconnectRedis = () => {
-    console.log("Attempting to reconnect to Redis...");
-    setTimeout(() => {
-        redis.connect().catch((err) => {
-            console.error(`Failed to reconnect to Redis: ${err.message}`);
-            reconnectRedis();
-        });
-    }, 5000); // Retry connection every 5 seconds
-};
+// const reconnectRedis = () => {
+//     console.log("Attempting to reconnect to Redis...");
+//     setTimeout(() => {
+//         redis.connect().catch((err) => {
+//             console.error(`Failed to reconnect to Redis: ${err.message}`);
+//             reconnectRedis();
+//         });
+//     }, 5000); // Retry connection every 5 seconds
+// };
 
 const PORT = process.env.PORT || 3000;
 
@@ -61,4 +61,4 @@ const start = () => {
 
 start();
 
-module.exports = redis;
+// module.exports = redis;
