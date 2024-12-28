@@ -36,7 +36,6 @@ class OnboardingPageState extends State<OnboardingPage> {
 
   @override
   void dispose() {
-
     _timer.cancel();
     super.dispose();
   }
@@ -44,45 +43,42 @@ class OnboardingPageState extends State<OnboardingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-
-          PageView(
-            controller: _pageController,
+      body: Center(
+        child: SizedBox(
+          height: HelperFunctions.getScreenSize(context).height-150,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Onboardingslide(
-                  image: ImageStrings.onboarding1, title: 'Explore'),
-              Onboardingslide(
-                  image: ImageStrings.onboarding2, title: 'Connect'),
-              Onboardingslide(
-                  image: ImageStrings.onboarding3, title: 'Achieve'),
-            ],
-          ),
-
-          Positioned(
-            bottom: HelperFunctions.getScreenSize(context).height /
-                4.2,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: SmoothPageIndicator(
-                controller: _pageController,
-                count: 3,
-                effect: const ExpandingDotsEffect(
-                  dotHeight: 3,
-                  dotWidth: 8,
-                  activeDotColor: Colors.black,
+              Flexible(
+                child: PageView(
+                  controller: _pageController,
+                  children: [
+                    Onboardingslide(
+                        image: ImageStrings.onboarding1, title: 'Explore'),
+                    Onboardingslide(
+                        image: ImageStrings.onboarding2, title: 'Connect'),
+                    Onboardingslide(
+                        image: ImageStrings.onboarding3, title: 'Achieve'),
+                  ],
                 ),
               ),
-            ),
+              SmoothPageIndicator(
+                  controller: _pageController,
+                  count: 3,
+                  effect: const ExpandingDotsEffect(
+                    dotHeight: 3,
+                    dotWidth: 8,
+                    activeDotColor: Colors.black,
+                  ),
+                ),
+                SizedBox(height: 20),
+              OnboardingButton(
+                text: 'GET STARTED',
+                onPressed: () => context.goNamed(AppRouteConstants.signup1),
+              ),
+            ],
           ),
-          Positioned(
-            bottom: 60,
-            left: HelperFunctions.getScreenSize(context).width *
-                0.25, 
-            child: OnboardingButton(text: 'GET STARTED',onPressed: () => context.goNamed(AppRouteConstants.signup1),),
-          ),
-        ],
+        ),
       ),
     );
   }
