@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/core/utils/constants/spaces.dart';
+import 'package:flutter_app/core/utils/constants/university_constants.dart';
 import 'package:flutter_app/features/auth/presentation/widgets/auth_button.dart';
+import 'package:flutter_app/features/auth/presentation/widgets/auth_dropdown.dart';
 import 'package:flutter_app/features/auth/presentation/widgets/auth_form_field.dart';
 import 'package:flutter_app/features/auth/presentation/widgets/auth_texts.dart';
 import 'package:flutter_app/core/error/user_data_validation.dart';
@@ -19,7 +21,7 @@ class SignupPage1State extends State<SignupPage1> {
   final TextEditingController _instituteController = TextEditingController();
   final TextEditingController _rollNumberController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-
+  String? selectedUniversity;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -49,16 +51,7 @@ class SignupPage1State extends State<SignupPage1> {
               AuthSmallText(
                   text: 'Enter your Academic Details and get Started!'),
               Spaces.largeSpace,
-              CAuthFormField(
-                controller: _instituteController, 
-                hintText: 'Institute',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your institute name';
-                  }
-                  return null;
-                },
-              ),
+              CDropdownButtonTheme.lightTheme(context,UniversityConstants.universities,selectedUniversity, 'Institute'),
               Spaces.smallSpace,
               CAuthFormField(
                 controller: _rollNumberController,

@@ -1,4 +1,8 @@
 class UniversityConstants {
+  static const List<String> universities = [
+    'Tezpur University',
+    'IIT Guwahati',
+  ];
   static const List<String> semesters = [
     '1',
     '2',
@@ -22,7 +26,7 @@ class UniversityConstants {
     "BSc",
     "BA",
   ];
-  static const List<String> departments =[
+  static const List<String> departments = [
     'CSE',
     'ECE',
     'EE',
