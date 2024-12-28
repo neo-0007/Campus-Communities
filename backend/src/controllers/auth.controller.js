@@ -70,8 +70,8 @@ const register = async (req, res, next) => {
                 user: userWithoutPassword,
             });
     } catch (error) {
-        next(error);
-    }
+        return res.status(500).json({ success: false, message: error.message });
+        }
 };
 
 const login = async (req, res, next) => {
@@ -110,8 +110,17 @@ const login = async (req, res, next) => {
             })
             .status(200).json({ success: true, message: "User logged in successfully.", user: userWithoutPassword });
     } catch (error) {
-        next(error);
-    }
+        return res.status(500).json({ success: false, message: error.message });
+        }
 }
 
-module.exports = { register, login };
+const logout = async (req, res, next) => {
+    try {
+        res.clearCookie("accessToken");
+        res.clearCookie("refreshToken");
+        return res.status(200).json({ success: true, message: "User logged out successfully." });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: error.message });
+    }
+}
+module.exports = { register, login, logout };

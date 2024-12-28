@@ -1,20 +1,50 @@
+import axios from "axios";
 import { useState } from "react";
 import { FaArrowRight } from "react-icons/fa"
 import { toast } from "react-toastify";
 
 export default function Login() {
     const [userDetails, setUserDetails] = useState({
-        rollNumber: "",
+        roll_number: "",
         password: "",
     })
+    const [loading, setLoading] = useState(false)
 
-    const handleSubmission = (e: { preventDefault: () => void; }) => {
+    const handleSubmission = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
-        if (!(/^[A-Za-z]+$/.test(userDetails.rollNumber[0])) || !(/^[0-9]+$/.test(userDetails.rollNumber[(userDetails.rollNumber.length - 1)])) || userDetails.rollNumber.length < 6) {
+        if (!(/^[A-Za-z]+$/.test(userDetails.roll_number[0])) || !(/^[0-9]+$/.test(userDetails.roll_number[(userDetails.roll_number.length - 1)])) || userDetails.roll_number.length < 6) {
             toast.error("Invalid Roll Number! Should be in the format CSB23023 or csb23078")
         } else {
-            toast.success("Successfully logged in! Welcome again")
-            console.log(userDetails);
+            try {
+                setLoading(true);
+                const response = await axios.post(
+                  `${import.meta.env.VITE_BASE_URL}/api/auth/login`,
+                  userDetails,
+                  { withCredentials: true }
+                );
+          
+                if (response.data.success) {
+                  setLoading(false);
+                  setUserDetails({
+                    roll_number: "",
+                    password: "",
+                  });
+                  toast.success("Successfully logged in!");
+                  console.log(userDetails);
+                }
+              } catch (error: any) {
+                setLoading(false);
+                //console.error("Error while creating account:", error);
+          
+                if (axios.isAxiosError(error) && error.response) {
+                  const errorMessage = error.response.data?.message || "Something went wrong!";
+                  toast.error(errorMessage);
+                } else {
+                  toast.error("An unexpected error occurred.");
+                }
+              } finally {
+                setLoading(false);
+              }
         }
     }
 
@@ -38,9 +68,9 @@ export default function Login() {
                                 placeholder="Roll Number"
                                 className="w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-3 text-sm text-gray-700 focus:outline-none focus:border-gray-400"
                                 onChange={(e) =>
-                                    setUserDetails({ ...userDetails, rollNumber: e.target.value })
+                                    setUserDetails({ ...userDetails, roll_number: e.target.value })
                                 }
-                                value={userDetails.rollNumber}
+                                value={userDetails.roll_number}
                                 required
                             />
                             <input
@@ -61,7 +91,7 @@ export default function Login() {
             className="relative w-full cursor-pointer overflow-hidden rounded-md border-2 border-black bg-[#ACC8F7] px-5 py-3 text-center font-mono font-semibold text-white transition-all duration-300 hover:shadow-lg hover:bg-blue-500 hover:border-black"
           >
             <span className="relative text-black">
-              LOGIN <FaArrowRight className="inline ml-2 text-black" />
+              {loading?"LOGGING IN ...":"LOGIN"} <FaArrowRight className="inline ml-2 text-black" />
             </span>
           </button>
                         </div>
