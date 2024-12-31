@@ -24,7 +24,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<User> register(User user) async {
     final response =
-        await remoteDataSource.signUp(user.email!, user.password!, user.name!);
+        await remoteDataSource.signUp(user);
     return User(
       id: response['id'],
     );

@@ -8,7 +8,15 @@ import 'package:flutter_app/routes/app_route_constants.dart';
 import 'package:go_router/go_router.dart';
 
 class SignupPage2 extends StatefulWidget {
-  const SignupPage2({super.key});
+  const SignupPage2(
+      {super.key,
+      required this.selectedInstitute,
+      required this.selectedEmail,
+      required this.selectedRollNumber});
+
+  final String selectedInstitute;
+  final String selectedEmail;
+  final String selectedRollNumber;
 
   @override
   SignupPage2State createState() => SignupPage2State();
@@ -34,18 +42,49 @@ class SignupPage2State extends State<SignupPage2> {
               fontSize: 24,
             ),
             Spaces.largeSpace,
-            CDropdownButtonTheme.lightTheme(context,
-                UniversityConstants.semesters, selectedSemester, 'Semester'),
+            CDropdownButtonTheme.lightTheme(
+                context,
+                UniversityConstants.semesters,
+                selectedSemester,
+                'Semester', (newValue) {
+              setState(() {
+                selectedSemester = newValue;
+              });
+            }),
             Spaces.smallSpace,
             CDropdownButtonTheme.lightTheme(
-                context, UniversityConstants.courses, seletectedCourse, 'Course'),
+                context,
+                UniversityConstants.courses,
+                seletectedCourse,
+                'Course', (newValue) {
+              seletectedCourse = newValue;
+            }),
             Spaces.smallSpace,
-            CDropdownButtonTheme.lightTheme(context,
-                UniversityConstants.departments, selectedDepartment, 'Department'),
+            CDropdownButtonTheme.lightTheme(
+                context,
+                UniversityConstants.departments,
+                selectedDepartment,
+                'Department', (newValue) {
+              setState(() {
+                selectedDepartment = newValue;
+              });
+            }),
             Spaces.largeSpace,
-            AuthButton(text: 'CONTINUE', onPressed: () {
-              context.goNamed(AppRouteConstants.signup3);
-            })
+            AuthButton(
+                text: 'CONTINUE',
+                onPressed: () {
+                  context.goNamed(
+                    AppRouteConstants.signup3,
+                    pathParameters: {
+                      'institute': widget.selectedInstitute,
+                      'email': widget.selectedEmail,
+                      'rollNumber': widget.selectedRollNumber,
+                      'department': selectedDepartment!,
+                      'semester': selectedSemester!,
+                      'course': seletectedCourse!,
+                    },
+                  );
+                })
           ],
         ),
       ),

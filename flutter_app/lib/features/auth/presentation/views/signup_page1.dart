@@ -7,7 +7,7 @@ import 'package:flutter_app/features/auth/presentation/widgets/auth_form_field.d
 import 'package:flutter_app/features/auth/presentation/widgets/auth_texts.dart';
 import 'package:flutter_app/core/error/user_data_validation.dart';
 import 'package:flutter_app/routes/app_route_constants.dart';
-import 'package:go_router/go_router.dart'; 
+import 'package:go_router/go_router.dart';
 
 class SignupPage1 extends StatefulWidget {
   const SignupPage1({super.key});
@@ -17,7 +17,6 @@ class SignupPage1 extends StatefulWidget {
 }
 
 class SignupPage1State extends State<SignupPage1> {
-
   final TextEditingController _instituteController = TextEditingController();
   final TextEditingController _rollNumberController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -27,7 +26,6 @@ class SignupPage1State extends State<SignupPage1> {
 
   @override
   void dispose() {
-
     _instituteController.dispose();
     _rollNumberController.dispose();
     _emailController.dispose();
@@ -41,7 +39,7 @@ class SignupPage1State extends State<SignupPage1> {
       body: Padding(
         padding: Spaces.allMediumPadding,
         child: Form(
-          key: _formKey, 
+          key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,7 +49,17 @@ class SignupPage1State extends State<SignupPage1> {
               AuthSmallText(
                   text: 'Enter your Academic Details and get Started!'),
               Spaces.largeSpace,
-              CDropdownButtonTheme.lightTheme(context,UniversityConstants.universities,selectedUniversity, 'Institute'),
+              CDropdownButtonTheme.lightTheme(
+                context,
+                UniversityConstants.universities,
+                selectedUniversity,
+                'Institute',
+                (newValue) {
+                  setState(() {
+                    selectedUniversity = newValue;
+                  });
+                },
+              ),
               Spaces.smallSpace,
               CAuthFormField(
                 controller: _rollNumberController,
@@ -68,7 +76,7 @@ class SignupPage1State extends State<SignupPage1> {
               ),
               Spaces.smallSpace,
               CAuthFormField(
-                controller: _emailController, 
+                controller: _emailController,
                 hintText: 'Mail',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -85,11 +93,11 @@ class SignupPage1State extends State<SignupPage1> {
                 text: 'CONTINUE',
                 onPressed: () {
                   if (_formKey.currentState?.validate() == true) {
-                    context.goNamed(AppRouteConstants.signup2);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          content: Text('Form Submitted Successfully!')),
-                    );
+                    context.goNamed(AppRouteConstants.signup2, pathParameters: {
+                      'institute': selectedUniversity!,
+                      'rollNumber': _rollNumberController.text,
+                      'email': _emailController.text
+                    });
                   }
                 },
               ),

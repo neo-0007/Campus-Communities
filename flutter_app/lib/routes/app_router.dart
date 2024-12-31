@@ -16,7 +16,7 @@ class AppRouter {
       // Route for Splash Screen
       GoRoute(
         name: AppRouteConstants.splash,
-        path: '/${AppRouteConstants.splash}', 
+        path: '/${AppRouteConstants.splash}',
         pageBuilder: (context, state) {
           return const MaterialPage(child: SplashScreen());
         },
@@ -24,7 +24,7 @@ class AppRouter {
       // Route for Onboarding Page
       GoRoute(
         name: AppRouteConstants.onboarding,
-        path: '/${AppRouteConstants.onboarding}', 
+        path: '/${AppRouteConstants.onboarding}',
         pageBuilder: (context, state) {
           return const MaterialPage(child: OnboardingPage());
         },
@@ -32,7 +32,7 @@ class AppRouter {
       // Route for Login Page
       GoRoute(
         name: AppRouteConstants.login,
-        path: '/${AppRouteConstants.login}', 
+        path: '/${AppRouteConstants.login}',
         pageBuilder: (context, state) {
           return const MaterialPage(child: LoginPage());
         },
@@ -48,25 +48,48 @@ class AppRouter {
       // Route for second Signup page
       GoRoute(
         name: AppRouteConstants.signup2,
-        path: '/${AppRouteConstants.signup2}', 
-        pageBuilder: (context, state) {
-          return const MaterialPage(child: SignupPage2());
+        path: '/${AppRouteConstants.signup2}/:institute/:rollNumber/:email',
+        builder: (BuildContext context, GoRouterState state) {
+          return SignupPage2(
+            selectedInstitute: state.pathParameters['institute']!,
+            selectedRollNumber: state.pathParameters['rollNumber']!,
+            selectedEmail: state.pathParameters['email']!,
+          );
         },
       ),
       // Route for third Signup page
       GoRoute(
         name: AppRouteConstants.signup3,
-        path: '/${AppRouteConstants.signup3}', 
-        pageBuilder: (context, state) {
-          return const MaterialPage(child: SignupPage3());
+        path:
+            '/${AppRouteConstants.signup3}/:institute/:email/:rollNumber/:department/:semester/:course',
+        builder: (BuildContext context, GoRouterState state) {
+          return SignupPage3(
+            selectedInstitute: state.pathParameters['institute']!,
+            selectedEmail: state.pathParameters['email']!,
+            selectedRollNumber: state.pathParameters['rollNumber']!,
+            selectedDepartment: state.pathParameters['department']!,
+            selectedSemester: state.pathParameters['semester']!,
+            selectedCourse: state.pathParameters['course']!,
+          );
         },
       ),
       // Route for Set password Page
       GoRoute(
         name: AppRouteConstants.setpassword,
-        path: '/${AppRouteConstants.setpassword}', 
-        pageBuilder: (context, state) {
-          return const MaterialPage(child: SetPasswordPage());
+        path:
+            '/${AppRouteConstants.setpassword}/:institute/:email/:rollNumber/:department/:semester/:course/:name/:phone/:userName',
+        builder: (context, state) {
+          return SetPasswordPage(
+            selectedInstitute: state.pathParameters['institute']!,
+            selectedEmail: state.pathParameters['email']!,
+            selectedRollNumber: state.pathParameters['rollNumber']!,
+            selectedDepartment: state.pathParameters['department']!,
+            selectedSemester: state.pathParameters['semester']!,
+            selectedCourse: state.pathParameters['course']!,
+            selectedName: state.pathParameters['name']!,
+            selectedPhone: state.pathParameters['phone']!,
+            selectedUserName: state.pathParameters['userName'],
+          );
         },
       ),
     ],
