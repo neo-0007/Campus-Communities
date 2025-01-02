@@ -6,4 +6,5 @@ class AppRouteConstants {
   static const String signup2 = 'signup2';
   static const String signup3 = 'signup3';
   static const String setpassword = 'setpassword';
+  static const String rootmain = 'rootmain';
 }

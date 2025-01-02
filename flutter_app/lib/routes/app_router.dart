@@ -4,6 +4,7 @@ import 'package:flutter_app/features/auth/presentation/views/set_password_page.d
 import 'package:flutter_app/features/auth/presentation/views/signup_page1.dart';
 import 'package:flutter_app/features/auth/presentation/views/signup_page2.dart';
 import 'package:flutter_app/features/auth/presentation/views/signup_page3.dart';
+import 'package:flutter_app/features/main_screen.dart';
 import 'package:flutter_app/features/onboarding/presentation/views/onboarding_page.dart';
 import 'package:flutter_app/features/splashscreen/splash_screen.dart';
 import 'package:flutter_app/routes/app_route_constants.dart';
@@ -91,6 +92,14 @@ class AppRouter {
             selectedUserName: state.pathParameters['userName'],
           );
         },
+      ),
+      //
+      GoRoute(
+        path: '/${AppRouteConstants.rootmain}',
+        name: AppRouteConstants.rootmain,
+        pageBuilder: (context, state) => MaterialPage(
+          child: MainScreen(),
+        ),
       ),
     ],
   );
