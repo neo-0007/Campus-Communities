@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/features/home/presentation/views/home_page.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class MainScreen extends StatefulWidget {
@@ -9,6 +10,10 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+
+  final List<Widget> _screens = [
+    HomePage(),
+  ];
   int _currentIndex = 0;
 
   @override
@@ -48,7 +53,7 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
       body: Center(
-        child: Text('Current Index: $_currentIndex'),
+        child: _screens[_currentIndex],
       ),
     );
   }

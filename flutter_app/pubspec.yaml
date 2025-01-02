@@ -39,6 +39,7 @@ dependencies:
   smooth_page_indicator: ^1.2.0+3
   http: ^1.2.2
   salomon_bottom_bar: ^3.3.2
+  carousel_slider: ^5.0.0
 
 dev_dependencies:
   flutter_test:
