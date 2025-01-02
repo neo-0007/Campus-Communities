@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/core/utils/constants/spaces.dart';
 import 'package:flutter_app/core/utils/constants/university_constants.dart';
+import 'package:flutter_app/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:flutter_app/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:flutter_app/features/auth/domain/usecases/get_departments_usecase.dart';
 import 'package:flutter_app/features/auth/presentation/widgets/auth_button.dart';
 import 'package:flutter_app/features/auth/presentation/widgets/auth_dropdown.dart';
 import 'package:flutter_app/features/auth/presentation/widgets/auth_texts.dart';
 import 'package:flutter_app/routes/app_route_constants.dart';
 import 'package:go_router/go_router.dart';
+import 'package:http/http.dart' as http;
 
 class SignupPage2 extends StatefulWidget {
   const SignupPage2(
@@ -26,6 +30,28 @@ class SignupPage2State extends State<SignupPage2> {
   String? selectedSemester;
   String? seletectedCourse;
   String? selectedDepartment;
+  int? selectedDepartmentId;
+  Map<String, int> departmentMap = {};
+  GetDepartmentsUsecase getDepartmentsUsecase = GetDepartmentsUsecase(
+      AuthRepositoryImpl(
+          remoteDataSource: AuthRemoteDataSource(client: http.Client())));
+
+  @override
+  void initState() {
+    getDepartments();
+    super.initState();
+  }
+
+  void getDepartments() async {
+    await UniversityConstants.fetchDepartments(
+        getDepartmentsUsecase, int.parse(widget.selectedInstitute));
+    setState(() {      
+    departmentMap = {
+      for (int i = 0; i < UniversityConstants.departments.length; i++)
+        UniversityConstants.departments[i]: i + 1
+    };
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +93,7 @@ class SignupPage2State extends State<SignupPage2> {
                 'Department', (newValue) {
               setState(() {
                 selectedDepartment = newValue;
+                selectedDepartmentId = departmentMap[selectedDepartment];
               });
             }),
             Spaces.largeSpace,
@@ -79,7 +106,7 @@ class SignupPage2State extends State<SignupPage2> {
                       'institute': widget.selectedInstitute,
                       'email': widget.selectedEmail,
                       'rollNumber': widget.selectedRollNumber,
-                      'department': selectedDepartment!,
+                      'department': '$selectedDepartmentId',
                       'semester': selectedSemester!,
                       'course': seletectedCourse!,
                     },

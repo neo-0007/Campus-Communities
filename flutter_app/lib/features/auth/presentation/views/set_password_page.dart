@@ -47,7 +47,8 @@ class SetPasswordPageState extends State<SetPasswordPage> {
       remoteDataSource: AuthRemoteDataSource(client: http.Client())));
 
   _register(User user) async {
-    final response = signupUsecase.execute(
+
+    signupUsecase.execute(
       User(
         email: user.email,
         institute: user.institute,

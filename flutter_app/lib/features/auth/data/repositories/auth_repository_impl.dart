@@ -1,4 +1,6 @@
 import 'package:flutter_app/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:flutter_app/features/auth/domain/model/department.dart';
+import 'package:flutter_app/features/auth/domain/model/institute.dart';
 import 'package:flutter_app/features/auth/domain/model/user.dart';
 import 'package:flutter_app/features/auth/domain/repositories/auth_repository.dart';
 
@@ -23,10 +25,32 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<User> register(User user) async {
-    final response =
-        await remoteDataSource.signUp(user);
+    final response = await remoteDataSource.signUp(user);
     return User(
       id: response['id'],
     );
+  }
+
+  @override
+  Future<List<Institute>> getAllInstitutes() async {
+    final response = await remoteDataSource.getAllInstitutues();
+
+    final List<dynamic> data = response['institutes'];
+    final List<Institute> institutes =
+        data.map((json) => Institute.fromJson(json)).toList();
+
+    return institutes;
+  }
+
+  @override
+  Future<List<Department>> getDepartmentsOfInstitute(int id) async {
+    final response = await remoteDataSource.getDepartmentsOfInstitute(id);
+    
+    final List<dynamic> data = response['departments'];
+
+    final List<Department> departments =
+        data.map((json) => Department.fromJson(json)).toList();
+
+    return departments;
   }
 }

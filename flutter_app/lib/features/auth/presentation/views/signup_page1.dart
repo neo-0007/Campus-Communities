@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/core/utils/constants/spaces.dart';
 import 'package:flutter_app/core/utils/constants/university_constants.dart';
+import 'package:flutter_app/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:flutter_app/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:flutter_app/features/auth/domain/usecases/get_institutes_usecase.dart';
 import 'package:flutter_app/features/auth/presentation/widgets/auth_button.dart';
 import 'package:flutter_app/features/auth/presentation/widgets/auth_dropdown.dart';
 import 'package:flutter_app/features/auth/presentation/widgets/auth_form_field.dart';
@@ -8,6 +11,7 @@ import 'package:flutter_app/features/auth/presentation/widgets/auth_texts.dart';
 import 'package:flutter_app/core/error/user_data_validation.dart';
 import 'package:flutter_app/routes/app_route_constants.dart';
 import 'package:go_router/go_router.dart';
+import 'package:http/http.dart' as http;
 
 class SignupPage1 extends StatefulWidget {
   const SignupPage1({super.key});
@@ -20,7 +24,12 @@ class SignupPage1State extends State<SignupPage1> {
   final TextEditingController _instituteController = TextEditingController();
   final TextEditingController _rollNumberController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  String? selectedUniversity;
+  String? selectedInstitute;
+  int? selectedInstituteId;
+  Map<String, int> instituteMap = {};
+  GetInstitutesUsecase getInstitutesUsecase = GetInstitutesUsecase(
+      AuthRepositoryImpl(
+          remoteDataSource: AuthRemoteDataSource(client: http.Client())));
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -30,6 +39,23 @@ class SignupPage1State extends State<SignupPage1> {
     _rollNumberController.dispose();
     _emailController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    getAllInstitutes();
+    super.initState();
+  }
+
+  void getAllInstitutes() async {
+    await UniversityConstants.fetchInstitutes(getInstitutesUsecase);
+
+    setState(() {
+      instituteMap = {
+      for (int i = 0; i < UniversityConstants.institutes.length; i++)
+        UniversityConstants.institutes[i]: i + 1
+    };
+    });
   }
 
   @override
@@ -51,12 +77,13 @@ class SignupPage1State extends State<SignupPage1> {
               Spaces.largeSpace,
               CDropdownButtonTheme.lightTheme(
                 context,
-                UniversityConstants.universities,
-                selectedUniversity,
+                UniversityConstants.institutes,
+                selectedInstitute,
                 'Institute',
                 (newValue) {
                   setState(() {
-                    selectedUniversity = newValue;
+                    selectedInstitute = newValue;
+                    selectedInstituteId = instituteMap[selectedInstitute];
                   });
                 },
               ),
@@ -94,7 +121,7 @@ class SignupPage1State extends State<SignupPage1> {
                 onPressed: () {
                   if (_formKey.currentState?.validate() == true) {
                     context.goNamed(AppRouteConstants.signup2, pathParameters: {
-                      'institute': selectedUniversity!,
+                      'institute': '$selectedInstituteId',
                       'rollNumber': _rollNumberController.text,
                       'email': _emailController.text
                     });
