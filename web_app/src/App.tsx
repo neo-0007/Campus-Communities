@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Join } from "./pages/Join"
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import { Home } from "./pages/Home";
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" element={<Join/>} />
         <Route path="/user/register" element={<Register/>} />
         <Route path="/user/login" element={<Login />} />
+        <Route path="/home" element={<Home />} />
       </Routes>
     </Router>
 
