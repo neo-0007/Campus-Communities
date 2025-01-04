@@ -1,4 +1,5 @@
 const BaseModel = require("./base.model");
+const Roles = require("./roles.model");
 
 class User extends BaseModel{
     constructor({ email, password, name, username,roll_number, semester,phone }) {
@@ -10,7 +11,7 @@ class User extends BaseModel{
         this.roll_number = roll_number;
         this.semester = semester;
         this.phone = phone;
-        this.role = 1;
+        this.role = new Roles({}).roles.student;
     }
 }
 

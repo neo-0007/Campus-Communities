@@ -67,6 +67,7 @@ const register = async (req, res, next) => {
             .status(201).json({
                 success: true,
                 message: "User registered successfully.",
+                refreshToken,
                 user: userWithoutPassword,
             });
     } catch (error) {
@@ -108,10 +109,24 @@ const login = async (req, res, next) => {
                 sameSite: "strict", // prevents CSRF attack
                 maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
             })
-            .status(200).json({ success: true, message: "User logged in successfully.", user: userWithoutPassword });
+            .status(200).json({ success: true, message: "User logged in successfully.", refreshToken, user: userWithoutPassword });
     } catch (error) {
         return res.status(500).json({ success: false, message: error.message });
         }
+}
+
+const getUser = async (req, res, next) => {
+    try {
+        const { user } = req;
+        const existingUser = await new User({}).findById(user.id);
+        if (existingUser.length == 0) {
+            return res.status(400).json({ success: false, message: "User not found." });
+        }
+        const { password: _, ...userWithoutPassword } = existingUser[0]
+        return res.status(200).json({ success: true, user: userWithoutPassword });
+    } catch (error) {
+        return res.status(500).json({ success: false, message: error.message });
+    }
 }
 
 const logout = async (req, res, next) => {
@@ -123,4 +138,4 @@ const logout = async (req, res, next) => {
         return res.status(500).json({ success: false, message: error.message });
     }
 }
-module.exports = { register, login, logout };
+module.exports = { register, login, logout, getUser };
