@@ -81,12 +81,12 @@ const login = async (req, res, next) => {
 
         const user = await new User({}).find({ roll_number });
         if (user.length === 0) {
-            return res.status(400).json({ success: false, message: "User not found." });
+            return res.status(400).json({ success: false, message: `User not found.`});
         }
 
         const isPasswordValid = await bcrypt.compare(password, user[0].password);
         if (!isPasswordValid) {
-            return res.status(400).json({ success: false, message: "Invalid password." });
+            return res.status(400).json({ success: false, message: `Invalid password.`});
         }
 
         const update_last_login = await new User({}).updateById(user[0].id, { last_login: new Date() });

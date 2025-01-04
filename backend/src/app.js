@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const authRouter = require("./routes/auth.route");
 const instituteRouter = require("./routes/institute.routes");
+const bannerRouter = require('./routes/banner.routes');
 
 dotenv.config();
 const app = express();
@@ -36,6 +37,7 @@ app.use(express.urlencoded({extended:false}));
 
 app.use('/api/auth', authRouter);
 app.use('/api/institute', instituteRouter);
+app.use('/api/banner',bannerRouter);
 
 module.exports = app;
 
