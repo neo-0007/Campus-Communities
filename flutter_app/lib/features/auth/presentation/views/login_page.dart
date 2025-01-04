@@ -35,7 +35,7 @@ class LoginPageState extends State<LoginPage> {
 
   void _login(String email, String password) async {
     try {
-      final user = await loginUsecase.execute(email, password);
+      await loginUsecase.execute(email, password);
       if (!mounted) return;
       CustomSnackbar(
               snackBarBorderColor: Colors.green,

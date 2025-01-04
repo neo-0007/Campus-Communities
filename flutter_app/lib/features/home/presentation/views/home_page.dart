@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/core/utils/constants/image_strings.dart';
 import 'package:flutter_app/features/home/presentation/widgets/poster_image.dart';
 import 'package:flutter_app/features/home/presentation/widgets/services_boxes.dart';
 
@@ -7,9 +8,9 @@ class HomePage extends StatefulWidget {
   HomePage({super.key});
 
   final List<String> banners = [
-    'assets/images/techxetra-banner-crop.jpeg',
-    'assets/images/techxetra-banner-crop.jpeg',
-    'assets/images/techxetra-banner-crop.jpeg',
+    ImageStrings.bannerDummy,
+    ImageStrings.bannerDummy,
+    ImageStrings.bannerDummy,
   ];
 
   @override
@@ -20,20 +21,22 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
 
   final List<String> serviceImages = [
-    'assets/images/explore-icon.png',
-    'assets/images/complaints-icon.png',
-    'assets/images/rent-icon.png',
-    'assets/images/lobby-icon.png',
-    'assets/images/people-icon.png',
-    'assets/images/market-icon.png',
+    ImageStrings.exploreService,
+    ImageStrings.complaintsService,
+    ImageStrings.rentService,
+    ImageStrings.lobbyService,
+    ImageStrings.peopleService,
+    ImageStrings.tradeService
   ];
+
+  final List<bool> isImageSvg=[false,true,true,true,true,true];
   final List<String> serviceTitles = [
-    'Explore',
-    'Complaints',
-    'Rent',
-    'Lobby',
-    'People',
-    'Trade',
+    'explore',
+    'complaints',
+    'rent',
+    'lobby',
+    'people',
+    'trade',
   ];
 
   final List<Color> serviceColors = [
@@ -47,8 +50,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
+    return SafeArea(
         child: SingleChildScrollView(
           // Wrap the entire content in SingleChildScrollView
           child: Padding(
@@ -123,19 +125,21 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
+                SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: Text('Services',
-                      style: Theme.of(context).textTheme.headlineSmall),
+                      style: Theme.of(context).textTheme.headlineMedium),
                 ),
                 SizedBox(
                   height: 10,
                 ),
                 Container(
                   padding: EdgeInsets.all(3),
-                  height: 200,
+                  height: 400,
                   child: GridView.builder(
                     itemCount: 6,
+                    physics: NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
                     ),
@@ -144,6 +148,7 @@ class _HomePageState extends State<HomePage> {
                           boxColor: serviceColors[index],
                           boxImage: serviceImages[index],
                           boxTitle: serviceTitles[index],
+                          isSvg: isImageSvg[index],
                           onTap: () {});
                     },
                   ),
@@ -152,7 +157,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-      ),
     );
   }
 }
