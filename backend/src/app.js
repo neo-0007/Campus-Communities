@@ -5,22 +5,25 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const authRouter = require("./routes/auth.route");
 const instituteRouter = require("./routes/institute.routes");
+const bannerRouter = require('./routes/banner.routes');
 
 dotenv.config();
 const app = express();
 
 const corsOptions = {
-    origin: (origin, callback) => {
-        const allowedOrigins = [
-            "http://localhost:5173",
-        ];
+    // origin: (origin, callback) => {
+    //     const allowedOrigins = [
+    //         "http://localhost:5173",
+    //         "http://localhost:63728"
+    //     ];
 
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, origin);
-        } else {
-            callback(new Error("Not allowed by CORS"));
-        }
-    },
+    //     if (!origin || allowedOrigins.includes(origin)) {
+    //         callback(null, origin);
+    //     } else {
+    //         callback(new Error("Not allowed by CORS"));
+    //     }
+    origin:true,
+    // },
     methods: "GET, POST, PUT, DELETE, PATCH, HEAD",
     credentials: true,
 };
@@ -34,6 +37,7 @@ app.use(express.urlencoded({extended:false}));
 
 app.use('/api/auth', authRouter);
 app.use('/api/institute', instituteRouter);
+app.use('/api/banner',bannerRouter);
 
 module.exports = app;
 

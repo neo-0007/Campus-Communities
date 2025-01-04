@@ -13,7 +13,7 @@ final _myAppRouter = AppRouter();
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.light,
       theme: CAppTheme.lightTheme,
       darkTheme: CAppTheme.darkTheme,
       routeInformationParser: _myAppRouter.router.routeInformationParser,

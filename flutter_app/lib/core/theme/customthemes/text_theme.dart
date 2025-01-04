@@ -55,7 +55,7 @@ class CTextTheme {
     ),
     labelLarge: GoogleFonts.poppins(
       fontSize: 12,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.normal,
       color: CColors.lightTextColor,
     ),
     labelMedium: GoogleFonts.poppins(

@@ -7,7 +7,21 @@ import 'package:flutter_app/routes/app_route_constants.dart';
 import 'package:go_router/go_router.dart';
 
 class SignupPage3 extends StatefulWidget {
-  const SignupPage3({super.key});
+  const SignupPage3(
+      {super.key,
+      required this.selectedInstitute,
+      required this.selectedEmail,
+      required this.selectedRollNumber,
+      required this.selectedDepartment,
+      required this.selectedSemester,
+      required this.selectedCourse});
+
+  final String selectedInstitute;
+  final String selectedEmail;
+  final String selectedRollNumber;
+  final String selectedDepartment;
+  final String selectedSemester;
+  final String selectedCourse;
 
   @override
   SignupPage3State createState() => SignupPage3State();
@@ -77,11 +91,18 @@ class SignupPage3State extends State<SignupPage3> {
                 text: 'CONTINUE',
                 onPressed: () {
                   if (_formKey.currentState?.validate() == true) {
-                    context.goNamed(AppRouteConstants.setpassword);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          content: Text('Form Submitted Successfully!')),
-                    );
+                    context.goNamed(AppRouteConstants.setpassword,
+                        pathParameters: {
+                          'institute': widget.selectedInstitute,
+                          'email': widget.selectedEmail,
+                          'rollNumber': widget.selectedRollNumber,
+                          'department': widget.selectedDepartment,
+                          'semester': widget.selectedSemester,
+                          'course': widget.selectedCourse,
+                          'name': _nameController.text,
+                          'phone': _phoneController.text,
+                          'userName': _usernameController.text
+                        });
                   }
                 },
               ),
