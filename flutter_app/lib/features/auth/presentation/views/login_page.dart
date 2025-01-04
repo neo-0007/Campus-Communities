@@ -1,6 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_app/core/error/user_data_validation.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
 import 'package:flutter_app/core/utils/constants/spaces.dart';
+import 'package:flutter_app/core/widgets/custom_snackbar.dart';
+import 'package:flutter_app/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:flutter_app/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:flutter_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:flutter_app/features/auth/presentation/widgets/auth_button.dart';
 import 'package:flutter_app/features/auth/presentation/widgets/auth_form_field.dart';
 import 'package:flutter_app/features/auth/presentation/widgets/auth_texts.dart';
@@ -14,18 +19,40 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
-
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _rollNumberController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final LoginUsecase loginUsecase = LoginUsecase(AuthRepositoryImpl(
+      remoteDataSource: AuthRemoteDataSource(client: http.Client())));
 
   @override
   void dispose() {
-    _emailController.dispose();
+    _rollNumberController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void _login(String email, String password) async {
+    try {
+      await loginUsecase.execute(email, password);
+      if (!mounted) return;
+      CustomSnackbar(
+              snackBarBorderColor: Colors.green,
+              snackBarColor: Colors.green,
+              snackBarIcon: Icons.check_circle_outlined,
+              snackBarText: 'Success',
+              snackBarSubText: 'Succesfully logged in!')
+          .show(context);
+    } catch (e) {
+      CustomSnackbar(
+              snackBarBorderColor: Colors.red,
+              snackBarColor: Colors.red,
+              snackBarIcon: Icons.error_outline,
+              snackBarText: 'Error',
+              snackBarSubText: 'Login failed: $e')
+          .show(context);
+    }
   }
 
   @override
@@ -35,7 +62,7 @@ class LoginPageState extends State<LoginPage> {
       body: Padding(
         padding: Spaces.allMediumPadding,
         child: Form(
-          key: _formKey, 
+          key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,14 +75,14 @@ class LoginPageState extends State<LoginPage> {
               Spaces.largeSpace,
               // Email TextField
               CAuthFormField(
-                hintText: 'Email',
-                controller: _emailController, 
+                hintText: 'Roll Number',
+                controller: _rollNumberController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
-                  }
-                  if (!RegExp(InstituteFormats.tuEmailPattern).hasMatch(value)) {
-                    return 'Enter a valid University email';
+                    return 'Please enter your Roll Number';
+                  } else if (!RegExp(InstituteFormats.tuRollNumberPattern)
+                      .hasMatch(value)) {
+                    return "Enter University mail!";
                   }
                   return null;
                 },
@@ -65,7 +92,7 @@ class LoginPageState extends State<LoginPage> {
               CAuthFormField(
                 hintText: 'Password',
                 obscureText: true,
-                controller: _passwordController, 
+                controller: _passwordController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your password';
@@ -83,9 +110,8 @@ class LoginPageState extends State<LoginPage> {
                 text: 'SIGN IN',
                 onPressed: () {
                   if (_formKey.currentState?.validate() == true) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Logging in...')),
-                    );
+                    _login(
+                        _rollNumberController.text, _passwordController.text);
                   }
                 },
               ),

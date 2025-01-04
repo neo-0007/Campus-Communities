@@ -1,11 +1,36 @@
+import 'package:flutter_app/features/auth/domain/model/user.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_app/core/utils/constants/spaces.dart';
+import 'package:flutter_app/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:flutter_app/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:flutter_app/features/auth/domain/usecases/signup_usecase.dart';
 import 'package:flutter_app/features/auth/presentation/widgets/auth_button.dart';
 import 'package:flutter_app/features/auth/presentation/widgets/auth_form_field.dart';
 import 'package:flutter_app/features/auth/presentation/widgets/auth_texts.dart';
 
 class SetPasswordPage extends StatefulWidget {
-  const SetPasswordPage({super.key});
+  const SetPasswordPage(
+      {super.key,
+      required this.selectedInstitute,
+      required this.selectedEmail,
+      required this.selectedRollNumber,
+      required this.selectedDepartment,
+      required this.selectedSemester,
+      required this.selectedCourse,
+      required this.selectedName,
+      this.selectedUserName,
+      required this.selectedPhone});
+
+  final String selectedInstitute;
+  final String selectedEmail;
+  final String selectedRollNumber;
+  final String selectedDepartment;
+  final String selectedSemester;
+  final String selectedCourse;
+  final String selectedName;
+  final String? selectedUserName;
+  final String selectedPhone;
 
   @override
   SetPasswordPageState createState() => SetPasswordPageState();
@@ -17,6 +42,27 @@ class SetPasswordPageState extends State<SetPasswordPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
+
+  SignupUsecase signupUsecase = SignupUsecase(AuthRepositoryImpl(
+      remoteDataSource: AuthRemoteDataSource(client: http.Client())));
+
+  _register(User user) async {
+
+    signupUsecase.execute(
+      User(
+        email: user.email,
+        institute: user.institute,
+        course: user.course,
+        department: user.department,
+        name: user.name,
+        password: user.password,
+        phone: user.phone,
+        rollNumber: user.rollNumber,
+        semester: user.semester,
+        userName: user.userName,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,9 +120,18 @@ class SetPasswordPageState extends State<SetPasswordPage> {
                 arrowIs: false,
                 onPressed: () {
                   if (_formKey.currentState?.validate() == true) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          content: Text('Password Set Successfully!')),
+                    _register(
+                      User(
+                          email: widget.selectedEmail,
+                          department: widget.selectedDepartment,
+                          course: widget.selectedCourse,
+                          institute: widget.selectedInstitute,
+                          name: widget.selectedName,
+                          password: _passwordController.text,
+                          phone: widget.selectedPhone,
+                          rollNumber: widget.selectedRollNumber,
+                          semester: int.parse(widget.selectedSemester),
+                          userName: widget.selectedUserName),
                     );
                   }
                 },
