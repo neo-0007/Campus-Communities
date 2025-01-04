@@ -1,9 +1,11 @@
 import axios from "axios";
 import { useState } from "react";
 import { FaArrowRight } from "react-icons/fa"
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function Login() {
+    const navigate = useNavigate()
     const [userDetails, setUserDetails] = useState({
         roll_number: "",
         password: "",
@@ -18,33 +20,34 @@ export default function Login() {
             try {
                 setLoading(true);
                 const response = await axios.post(
-                  `${import.meta.env.VITE_BASE_URL}/api/auth/login`,
-                  userDetails,
-                  { withCredentials: true }
+                    `${import.meta.env.VITE_BASE_URL}/api/auth/login`,
+                    userDetails,
+                    { withCredentials: true }
                 );
-          
+
                 if (response.data.success) {
-                  setLoading(false);
-                  setUserDetails({
-                    roll_number: "",
-                    password: "",
-                  });
-                  toast.success("Successfully logged in!");
-                  console.log(userDetails);
+                    setLoading(false);
+                    setUserDetails({
+                        roll_number: "",
+                        password: "",
+                    });
+                    toast.success("Successfully logged in!");
+                    await navigate("/");
+                    window.location.reload();
                 }
-              } catch (error: any) {
+            } catch (error: any) {
                 setLoading(false);
                 //console.error("Error while creating account:", error);
-          
+
                 if (axios.isAxiosError(error) && error.response) {
-                  const errorMessage = error.response.data?.message || "Something went wrong!";
-                  toast.error(errorMessage);
+                    const errorMessage = error.response.data?.message || "Something went wrong!";
+                    toast.error(errorMessage);
                 } else {
-                  toast.error("An unexpected error occurred.");
+                    toast.error("An unexpected error occurred.");
                 }
-              } finally {
+            } finally {
                 setLoading(false);
-              }
+            }
         }
     }
 
@@ -86,14 +89,14 @@ export default function Login() {
                         </div>
 
                         <div>
-                        <button
-            type="submit"
-            className="relative w-full cursor-pointer overflow-hidden rounded-md border-2 border-black bg-[#ACC8F7] px-5 py-3 text-center font-mono font-semibold text-white transition-all duration-300 hover:shadow-lg hover:bg-blue-500 hover:border-black"
-          >
-            <span className="relative text-black">
-              {loading?"LOGGING IN ...":"LOGIN"} <FaArrowRight className="inline ml-2 text-black" />
-            </span>
-          </button>
+                            <button
+                                type="submit"
+                                className="relative w-full cursor-pointer overflow-hidden rounded-md border-2 border-black bg-[#ACC8F7] px-5 py-3 text-center font-mono font-semibold text-white transition-all duration-300 hover:shadow-lg hover:bg-blue-500 hover:border-black"
+                            >
+                                <span className="relative text-black">
+                                    {loading ? "LOGGING IN ..." : "LOGIN"} <FaArrowRight className="inline ml-2 text-black" />
+                                </span>
+                            </button>
                         </div>
                     </form>
 

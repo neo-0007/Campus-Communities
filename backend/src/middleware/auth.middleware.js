@@ -4,8 +4,6 @@ const Roles = require("../models/roles.model");
 const protectRoute = async (req, res, next) => {
     try {
         const { accessToken, refreshToken } = req.cookies;
-
-        // If no access token is found, check for the refresh token
         if (!accessToken) {
             if (!refreshToken) {
                 return res.status(401).json({ message: "You need to login!" });
@@ -13,10 +11,10 @@ const protectRoute = async (req, res, next) => {
 
             // Verify the refresh token
             const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-
+            const decodedUser = decoded.user;
             // Generate a new access token
             const newAccessToken = jwt.sign(
-                { decoded },
+                {user: decodedUser },
                 process.env.ACCESS_TOKEN_SECRET,
                 { expiresIn: "15m" }
             );
@@ -29,13 +27,15 @@ const protectRoute = async (req, res, next) => {
                 maxAge: 15 * 60 * 1000, // 15 minutes
             });
 
-            req.user = decoded;
+            const decodeFromNewAccessToken = jwt.verify(newAccessToken, process.env.ACCESS_TOKEN_SECRET);
+
+            req.user = decodeFromNewAccessToken.user;
             return next();
         }
 
         // Verify the access token
         const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
-        req.user = decoded;
+        req.user = decoded.user;
         next();
     } catch (error) {
         return res.status(500).json({ message: "Something went wrong!" });

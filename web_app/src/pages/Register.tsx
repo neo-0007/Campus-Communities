@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 interface IInstitute {
@@ -21,6 +22,7 @@ interface IDepartment {
 }
 
 export default function Register() {
+  const navigate = useNavigate();
   const [componentNumber, setComponentNumber] = useState(0);
   const [userDetails, setUserDetails] = useState({
     institute: "",
@@ -104,6 +106,7 @@ export default function Register() {
         if (response.data.success) {
           setLoading(false);
           setComponentNumber(0);
+          localStorage.setItem("refreshToken", JSON.stringify(response.data.refreshToken));
           setUserDetails({
             institute: "",
             roll_number: "",
@@ -118,7 +121,10 @@ export default function Register() {
             confirmPassword: "",
           });
           toast.success("Successfully joined the community!");
-          console.log(userDetails);
+          await navigate("/");
+          window.location.reload();
+
+          // console.log(userDetails);
         } else if (response.data.error) {
           toast.error("User with this roll number already exists!");
         }

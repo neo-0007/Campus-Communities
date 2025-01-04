@@ -11,19 +11,19 @@ dotenv.config();
 const app = express();
 
 const corsOptions = {
-    // origin: (origin, callback) => {
-    //     const allowedOrigins = [
-    //         "http://localhost:5173",
-    //         "http://localhost:63728"
-    //     ];
+    origin: (origin, callback) => {
+        const allowedOrigins = [
+            "http://localhost:5173",
+            "*",
+            "http://192.168.43.67:5173"
+        ];
 
-    //     if (!origin || allowedOrigins.includes(origin)) {
-    //         callback(null, origin);
-    //     } else {
-    //         callback(new Error("Not allowed by CORS"));
-    //     }
-    origin:true,
-    // },
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, origin);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
     methods: "GET, POST, PUT, DELETE, PATCH, HEAD",
     credentials: true,
 };
