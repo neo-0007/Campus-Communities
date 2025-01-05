@@ -2,36 +2,35 @@ import React, { useState, useEffect } from "react";
 
 interface ImageSliderProps {
   images: string[]; // Array of image URLs
+  length: number; // Number of images
   autoSlideInterval?: number; // Optional interval for auto-sliding (in ms)
 }
 
 const ImageSlider: React.FC<ImageSliderProps> = ({
   images,
+  length,
   autoSlideInterval = 3000, // Default interval is 3 seconds
 }) => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-
   // Move to the next slide
   const handleNext = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === images.length - 1 ? 0 : prevIndex + 1
-    );
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % length);
   };
 
   // Move to the previous slide
   const handlePrev = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1
-    );
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + length) % length);
   };
 
   // Automatic sliding with useEffect
   useEffect(() => {
-    const intervalId = setInterval(handleNext, autoSlideInterval);
-
-    // Clear interval on component unmount
-    return () => clearInterval(intervalId);
-  }, [autoSlideInterval]);
+    if (length > 1) {
+      const intervalId = setInterval(handleNext, autoSlideInterval);
+  
+      // Clear interval on component unmount
+      return () => clearInterval(intervalId);
+    }
+  }, [autoSlideInterval, length]);
 
   // Handle dot click
   const handleDotClick = (index: number) => {

@@ -1,15 +1,21 @@
 import { Navbar } from "../components/Navbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ImageSlider from "../components/Slider";
 import { Sidebar } from "../components/Sidebar";
+import axios from "axios";
+import useAuth from "../components/useAuthRedirect";
+
+interface IBanner {
+    id: string;
+    title: string;
+    image_url: string;
+}
 
 export const Home = () => {
-    const [images, setImages] = useState([
-        "/DemoEvent.svg",
-        "https://dhritiman78.github.io/woolen-clothes/assets/slideImg/pic2.1.JPG",
-        "https://dhritiman78.github.io/woolen-clothes/assets/slideImg/pic3.1.JPG",
-        "https://dhritiman78.github.io/woolen-clothes/assets/slideImg/pic4.1.JPG"
-    ]);
+    const [banners, setBanners] = useState<IBanner[]>([]);
+    const { user } = useAuth();
+    const [images, setImages] = useState<string[]>([]);
+    const [noOfActiveBanners, setNoOfActiveBanners] = useState(0);
 
     const rightIcons = [
         { name: "Explore", icon: "/explore.svg", color: "#cccef6", link: "#" },
@@ -19,6 +25,31 @@ export const Home = () => {
         { name: "Trade", icon: "/trade.svg", color: "#f4deb7", link: "#" },
         { name: "Rent", icon: "/rent.svg", color: "#f3ecbb", link: "#" },
     ]
+
+    const fetchImages = async () => {
+        try {
+            const response = await axios.get(
+                `${import.meta.env.VITE_BASE_URL}/api/banner/active/institute/1`,
+                { withCredentials: true }
+            );
+            setNoOfActiveBanners(response.data.length);
+            setBanners(response.data.data);
+        } catch (error) {
+            console.log("Error fetching images", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchImages();
+    }, []); 
+
+        // Update images state once banners have been fetched
+        useEffect(() => {
+            if (banners.length > 0) {
+                const bannerImages = banners.map((banner) => banner.image_url);
+                setImages(bannerImages);
+            }
+        }, [banners && noOfActiveBanners]);
 
     return (
         <div>
@@ -35,7 +66,7 @@ export const Home = () => {
                                     Events
                                 </div>
                                 <div>
-                                    <ImageSlider images={images} />
+                                    <ImageSlider images={images} length={noOfActiveBanners} />
                                 </div>
                             </div>
                             <div>
@@ -70,7 +101,7 @@ export const Home = () => {
                 <div>
                     <div className="px-5 py-5">
                         <div>
-                            <ImageSlider images={images} />
+                            <ImageSlider images={images} length={noOfActiveBanners} />
                         </div>
                         <div className="my-4 mb-20">
                             <div className="my-2 mx-2 font-bold text-2xl">Services</div>

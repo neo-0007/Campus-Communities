@@ -15,7 +15,7 @@ class Banner extends BaseModel {
   }
 
 
-  static async getActiveBanners(date){
+  async getActiveBanners(date){
     try {
         const formattedDate = new Date(date).toISOString().slice(0, 19).replace("T", " ");
 
@@ -32,7 +32,7 @@ class Banner extends BaseModel {
     }
   }
 
-  static async getActiveBannersOfInstitute(date,instituteId){
+  async getActiveBannersOfInstitute(date,instituteId){
     try {
       const formattedDate = new Date(date).toISOString().slice(0, 19).replace("T", " ");
       const query =`
