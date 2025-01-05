@@ -27,7 +27,6 @@ function App() {
 
   if (status === "loading" || status === "idle" || isAppLoading) {
     return <Loader />
-    
   }
 
   return (
